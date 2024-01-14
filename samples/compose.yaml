@@ -1,0 +1,18 @@
+version: '3.9'
+services:
+  layer:
+    build: .
+    image: lambda_layer:latest
+    platform: linux/arm64/v8
+    container_name: lambda-layer
+    networks:
+      - lambda-layer
+    environment:
+      - PYTHON_VERSION=python3.10
+      - FILENAME=my_layer.zip
+    entrypoint: /layer/create_layer.sh
+    volumes:
+      - requirements.txt:/layer/requirements.txt
+      - ./build:/layer/build
+networks:
+  lambda-layer:
